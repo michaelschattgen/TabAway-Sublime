@@ -1,5 +1,5 @@
 {
 	// The file extensions you want to close automatically. Use | (pipe) to provide multiple file extensions
 	// For example: 'txt|py|html'
-    "tabaway_file_extensions": "xml|sublime-settings",
+    "tabaway_file_extensions": "xbrl|sublime-settings",
 }

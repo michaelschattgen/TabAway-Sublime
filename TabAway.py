@@ -1,5 +1,6 @@
 import sublime_plugin
 import sublime
+import os
 
 
 class TabAwayCommand(sublime_plugin.WindowCommand):
@@ -14,14 +15,18 @@ class TabAwayCommand(sublime_plugin.WindowCommand):
                 fileName = file.file_name()
                 if fileName is not None:
                     if self.getExtension(fileName) in fileExtensions:
-                        # Do something with the files
-                        return
+                        if (os.path.exists(fileName) is True and
+                            not file == self.window.active_view_in_group(i) and
+                                not file.is_dirty()):
+
+                            self.window.focus_view(file)
+                            self.window.run_command('close_file')
 
     def getExtension(self, filename):
         return filename.split('.')[-1]
 
-    def getEnabledExtensions(self, fileExtensionsSetting):
-        fileExtensions = fileExtensionsSetting.split('|')
+    def getEnabledExtensions(self, enabledFileExtensions):
+        fileExtensions = enabledFileExtensions.split('|')
         return fileExtensions
 
 
