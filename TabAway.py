@@ -1,15 +1,19 @@
-import sublime
 import sublime_plugin
-import os
-import time
 
 
 class TabAwayCommand(sublime_plugin.WindowCommand):
     def run(self):
-    	active = self.window.active_view();
-    	print("ok")
-    	for i in range(0, self.window.num_groups()):
-    		print(i)
+        groupsCount = self.window.num_groups()
+        for i in range(0, groupsCount):
+            for file in self.window.views_in_group(i):
+                fileName = file.file_name()
+                if fileName is not None:
+                    if self.getExtension(fileName) == "xbrl":
+                        print(fileName)
+
+    def getExtension(self, filename):
+        return filename.split('.')[-1]
+
 
 class TabAwayListener(sublime_plugin.EventListener):
     def on_post_save(self, view):
