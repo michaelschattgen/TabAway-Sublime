@@ -1,5 +1,5 @@
 [
     {
-        //"keys": ["ctrl+alt+w"], "command": "tab_away"
+        "keys": ["ctrl+alt+c"], "command": "tab_away"
     }
 ]
