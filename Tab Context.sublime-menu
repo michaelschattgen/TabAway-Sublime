@@ -1,6 +1,10 @@
 [
 	{ 
-	    	"command": "copy_file_path", 
-	    	"caption": "Copy file path"
+	    	"caption": "-"
+	},
+	{ 
+	    	"command": "close_all_files", 
+	    	"caption": "Close all files with the same extension",
+	    	"args": { "group": -1, "index": -1 }
 	}
 ]
