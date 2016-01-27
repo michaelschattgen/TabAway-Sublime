@@ -44,4 +44,5 @@ class TabAwayCommand(sublime_plugin.WindowCommand):
 
 class TabAwayListener(sublime_plugin.EventListener):
     def on_post_save(self, view):
-        view.window().run_command("tab_away")
+        # view.window().run_command("tab_away")
+        return
