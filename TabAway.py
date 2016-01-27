@@ -11,40 +11,37 @@ class TabAwayCommand(sublime_plugin.WindowCommand):
 
         file_extensions = Utils.get_enabled_extensions(enabled_file_extensions)
 
-        # Iterate over the amount of windows / groups of the editor
-        files = Utils.get_files(self)
+        Utils.close_files(self.window, file_extensions)
 
 
 class Utils():
     def close_files(window, extensions):
-        files = []
-        group_count = window.window.num_groups()
+        print("Closing " + str(extensions))
+
+        # Iterate over the amount of windows / groups of the editor
+        group_count = window.num_groups()
         for i in range(0, group_count):
-            for file in window.window.views_in_group(i):
+            for file in window.views_in_group(i):
                 path = file.file_name()
                 if path is not None:
                     # Check if the file extension is provided by user
-                    if Utils.get_extension(files[i].file_name()) in file_extensions:
+                    if Utils.get_extension(path) in extensions:
 
                         # Close file when
                         #           * extension is provided by user
                         #           * file is not dirty
                         #           * file is not new / unsaved
                         #           * file is not active
-                        if (os.path.exists(files[i].file_name()) is True and
-                            not files[i] == self.window.active_view_in_group(i) and
-                                not files[i].is_dirty()):
+                        if (os.path.exists(path) is True and
+                            not path == window.active_view_in_group(i) and
+                                not file.is_dirty()):
 
-                            self.window.focus_view(files[i])
-                            self.window.run_command('close_file')
-
-        return files
-
+                            window.focus_view(file)
+                            window.run_command('close_file')
 
     def get_extension(path):
         file_extension = path.split('.')[-1]
         return file_extension
-
 
     def get_enabled_extensions(enabled_file_extensions):
         file_extensions = enabled_file_extensions.split('|')
@@ -65,12 +62,11 @@ class TabAwaySetterListener(sublime_plugin.EventListener):
 
 class ListSpecifiedCommand(sublime_plugin.WindowCommand):
     def run(self):
-        view = self.view
         default = ["all"]
         commands = [default]
 
         for item in ["1", "2"]:
-            commands.append(item) 
+            commands.append(item)
         self.window.show_quick_panel(commands, self.close_specific_file_extension)
 
 
@@ -80,10 +76,11 @@ class CloseAllFilesCommand(sublime_plugin.TextCommand):
         views = window.views_in_group(group)
         view = views[index]
 
+        print(self.view.window().num_groups())
+
         file_name = view.file_name()
         if file_name is None:
             return
 
-        Utils.get_extension(file_name)
-
-        
+        file_extension = Utils.get_extension(file_name)
+        Utils.close_files(window, file_extension)
