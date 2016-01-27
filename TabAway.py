@@ -46,3 +46,23 @@ class TabAwayListener(sublime_plugin.EventListener):
     def on_post_save(self, view):
         # view.window().run_command("tab_away")
         return
+
+
+class TabAwaySetterListener(sublime_plugin.EventListener):
+    def on_activated(self, view):
+        if not view.settings().get('is_widget'):
+            ListSpecifiedCommand.view = view
+
+
+class ListSpecifiedCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        view = self.view
+        default = ["all"]
+        commands = [default]
+
+        for item in ["1", "2"]:
+            commands.append(item) 
+        self.window.show_quick_panel(commands, self.close_specific_file_extension)
+
+    def close_specific_file_extension(self, item):
+       print(item)

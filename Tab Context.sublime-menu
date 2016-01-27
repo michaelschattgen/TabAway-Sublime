@@ -1,0 +1,6 @@
+[
+	{ 
+	    	"command": "copy_file_path", 
+	    	"caption": "Copy file path"
+	}
+]

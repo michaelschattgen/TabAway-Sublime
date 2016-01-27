@@ -1,6 +1,10 @@
 [
     {
-        "caption": "TabAway",
+        "caption": "TabAway: Close all files with specified extension",
         "command": "tab_away"
+    },
+    {
+        "caption": "TabAway: Close all files ...",
+        "command": "list_specified"
     }
 ]
